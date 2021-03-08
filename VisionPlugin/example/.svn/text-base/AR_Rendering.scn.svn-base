@@ -1,0 +1,77 @@
+<Node name="root" gravity="0 -9.8 0" dt="0.05">
+	<ViewerSetting resolution="800 450"/>
+	<VisualStyle displayFlags="showVisualModels hideBehaviorModels showCollisionModels hideMappings hideForceFields showRendering" />
+	<DefaultAnimationLoop />
+	<CollisionPipeline depth="15" verbose="0" draw="0" />
+	<BruteForceDetection name="N2" />
+	<MinProximityIntersection name="Proximity" alarmDistance="0.00001" contactDistance="0.000001" />
+
+	<VisualManagerPass name="Masking" factor="2.0" tags="Masking" renderToScreen="false"/>
+	<VisualManagerPass name="Augmented" factor="2.0" tags="Augmented" renderToScreen="false"/>
+	<VisualManagerPass name="RealStuff" factor="2.0" tags="RealStuff" renderToScreen="false"/>
+
+	<VisualManagerSecondaryPass name="Final"
+		factor="1.0"
+		input_tags="Masking Augmented RealStuff"
+		output_tags="finalImage"
+		fragFilename="MixedReality.frag"
+		renderToScreen="true" />
+
+	<CompositingVisualLoop name="compositingloop"/>
+
+	<Node name="Liver">
+		<EulerImplicitSolver name="cg_odesolver" vdamping="2" />
+		<CGLinearSolver name="linear solver" iterations="100" tolerance="1e-09" threshold="1e-09" />
+		<MeshVTKLoader name="meshLoader" filename="Liver_Lobe0.vtu" />
+		<TetrahedronSetTopologyContainer name="topo" src="@meshLoader" />
+		<MechanicalObject name="DOFs" src="@meshLoader" />
+		<TetrahedronSetGeometryAlgorithms template="Vec3d" name="GeomAlgo" />
+		<DiagonalMass name="mass" massDensity="1000" />
+		<TetrahedralCorotationalFEMForceField 
+			template="Vec3d" name="FEM" method="svd" 
+			poissonRatio="0.35" youngModulus="5000" computeGlobalMatrix="0" 
+			tags="none"/>
+		<BoxROI name="ROI1" box="-0.05 -0.075 -0.01 0.05 -0.05 0.01" drawBoxes="true" />
+		<RestShapeSpringsForceField name="BoxConstraints" points="@ROI1.indices" 
+			stiffness="50" angularStiffness="50000" 
+			drawSpring="1" springColor="1 1 0 1"/>
+
+		<Node name="VisualLiverSolid" tags="Visual">
+			<OglModel name="VisualModel" fileMesh="Liver_Lobe.obj" color="0.9 0.6 0.6 1.0" tags="Masking"/>
+			<OglShader vertFilename="Opac.vert" fragFilename="Opac.frag" tags="Masking"/>
+			<BarycentricMapping name="visual mapping" input="@../DOFs" output="@VisualModel" />
+		</Node>
+
+		<Node name="VisualVasculature" tags="Visual">
+			<OglModel name="VisualModel" fileMesh="Vasc_Liver.obj" color="0.3 0.3 0.9 1.0" tags="Augmented"/>
+			<BarycentricMapping name="visual mapping" input="@../DOFs" output="@VisualModel" tags="Augmented"/>
+		</Node>
+
+		<Node name="VisualLiverWire" tags="Visual">
+			<VisualStyle displayFlags="showWireframe" tags="Augmented"/>
+			<OglModel  name="VisualModel" fileMesh="Liver_Lobe.obj" color="1.0 1.0 1.0 0.95" tags="Augmented" />
+			<BarycentricMapping name="visual mapping" input="@../DOFs" output="@VisualModel" tags="Augmented"/>
+		</Node>
+	</Node>
+
+	<Node name="VisualBackdrop" tags="Visual">
+		<OglModel name="VisualModel" fileMesh="BackDrop.obj" color="0.3 0.3 0.9 1.0" tags="RealStuff"/>
+		<OglShader vertFilename="shaders/shaderLibrary.glsl" fragFilename="shaders/shaderLibrary.glsl" tags="RealStuff"/>
+		<OglFloat3Variable name="AmbientColor" value="0.1 0.1 0.1" tags="RealStuff"/>
+		<OglFloat3Variable name="DiffuseColor" value="0.73 0.75 0.71" tags="RealStuff"/>
+		<OglFloat3Variable name="SpecularColor" value="1.0 1.0 1.0" tags="RealStuff"/>
+		<OglFloatVariable  name="SpecularRoughness" value="0.2" tags="RealStuff"/>
+		<OglFloatVariable  name="SpecularReflectance" value="0.1" tags="RealStuff"/>
+		<OglFloatVariable  name="EnvReflectance" value="0.1" tags="RealStuff"/>
+
+		<OglFloat3Variable name="LightColor" value="1 1 1" tags="RealStuff"/>
+		<OglFloat3Variable name="LightPosition" value="-20 0 60" tags="RealStuff"/>
+
+		<OglShaderDefineMacro id="DiffuseMap_Present" tags="RealStuff" />
+		<OglTexture 
+			name="color" id="DiffuseMap" 
+			textureFilename="refImage.png" textureUnit="1" repeat="true" 
+			srgbColorspace="false" tags="RealStuff"/>
+	</Node>
+
+</Node>

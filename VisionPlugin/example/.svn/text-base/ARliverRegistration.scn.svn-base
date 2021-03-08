@@ -1,0 +1,70 @@
+<Node name="root" gravity="0 -9.8 0" dt="0.05">
+    <RequiredPlugin name="AugmentedReality plugin" pluginName="SofaAR" />
+    <ViewerSetting resolution="800 450" />
+    <VisualStyle displayFlags="showVisualModels hideBehaviorModels showCollisionModels hideMappings hideForceFields" />
+    <DefaultAnimationLoop />
+    <CollisionPipeline depth="15" verbose="0" draw="0" />
+    <BruteForceDetection name="N2" />
+    <MinProximityIntersection name="Proximity" alarmDistance="0.00001" contactDistance="0.000001" />
+    <LightManager />
+    <DirectionalLight name="light1" color="0.7 0.7 0.8" direction="0 -1 -1" />
+    <DirectionalLight name="light2" color="0.7 0.7 0.8" direction="1 1 0" />
+   
+    <Node name="Liver">
+        <EulerImplicitSolver name="cg_odesolver" vdamping="2" />
+        <CGLinearSolver name="linear solver" iterations="100" tolerance="1e-09" threshold="1e-09" />
+        <MeshVTKLoader name="meshLoader" filename="Liver_Lobe0.vtu" />
+        <TetrahedronSetTopologyContainer name="topo" src="@meshLoader" />
+        <MechanicalObject name="DOFs" src="@meshLoader" />
+        <TetrahedronSetGeometryAlgorithms template="Vec3d" name="GeomAlgo" />
+        <DiagonalMass name="mass" massDensity="1000" />
+        <TetrahedralCorotationalFEMForceField template="Vec3d" name="FEM" method="svd" poissonRatio="0.35" youngModulus="250000" computeGlobalMatrix="0" tags="Visual NormalRender"/>
+        <BoxROI name="ROI1" box="-0.05 -0.075 -0.01 0.05 -0.05 0.01" drawBoxes="true" />
+        <!--<RestShapeSpringsForceField name="BoxConstraints" points="@ROI1.indices" stiffness="50" angularStiffness="5000000" drawSpring="1" springColor="1 1 0 1"/>-->
+	
+        <Node name="VisualLiverWire" tags="Visual">
+            <VisualStyle displayFlags="showWireframe" />
+            <OglModel  name="VisualModel" fileMesh="Liver_Lobe.obj" color="0.1 0.1 0.1 0.95" tags="NormalRender" />
+            <BarycentricMapping name="visual mapping" input="@../DOFs" output="@VisualModel" />
+        </Node>
+
+        <Node name="VisualLiverSolid" tags="Visual">
+            <VisualStyle displayFlags="hideWireframe" />
+            <OglModel  name="VisualModel" fileMesh="Liver_Lobe.obj" color="0.9 0.6 0.6 0.25" tags="NormalRender" />
+            <BarycentricMapping name="visual mapping" input="@../DOFs" output="@VisualModel" />
+        </Node>
+
+        <Node name="VisualVasculature" tags="Visual">
+            <VisualStyle displayFlags="hideWireframe" />
+            <OglModel  name="VisualModel" fileMesh="Vasc_Liver.obj" color="0.1 0.1 0.6 0.3" tags="NormalRender" />
+            <BarycentricMapping name="visual mapping" input="@../DOFs" output="@VisualModel" />
+        </Node>
+
+        <Node name="TrackedPoints">
+            <PointsRegistrationEngine name="engine" template="Vec3d" inputPosition="@../DOFs.position" scale="0.03 0.03 0.03" host="127.0.0.1" port="8888" tags="NormalRender Visual"/>
+            <MechanicalObject name="trackedDOFs" position="@engine.outputPosition" rest_position="@engine.outputPosition"/>
+            <Sphere template="Vec3d" radius="0.001" color="0.0 1.0 0.0" tags="NormalRender"/>
+        </Node>
+
+        <Node name="Markers">
+            <MeshObjLoader name="loader" filename="anatomicalFeatures.obj"/>
+            <Mesh src="@loader" />
+            <MechanicalObject src="@loader" name="movingDOFs" showIndices="true"/>
+            <BoxROI name="ROI" box="-0.1 -0.1 -0.05 0.1 0.1 0.05" drawBoxes="true" />
+            <BarycentricMapping name="Bmapping" input="@../DOFs" output="@movingDOFs" />
+            <Sphere template="Vec3d" radius="0.001" color="1.0 0.0 0.0" tags="NormalRender"/>
+            <RestShapeSpringsForceField name="RSFF" stiffness="250000" angularStiffness="500" external_rest_shape="../TrackedPoints/trackedDOFs" external_points="@../TrackedPoints/engine.outputIndices" points="@ROI.indices" recompute_indices="true" />
+        </Node>
+
+        <Node name="CM" activated="false">
+            <MeshObjLoader name="loader" filename="Liver_Lobe.obj"/>
+            <Mesh src="@loader" />
+            <MechanicalObject src="@loader" name="CollisionModel"/>
+            <Triangle />
+            <Point />
+            <BarycentricMapping input="@../DOFs" output="@CollisionModel" />
+        </Node>
+
+    </Node>
+
+</Node>

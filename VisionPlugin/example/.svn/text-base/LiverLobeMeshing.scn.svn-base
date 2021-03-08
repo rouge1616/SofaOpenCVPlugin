@@ -1,0 +1,30 @@
+<Node name="Root" gravity="0 -9.81 0" dt="0.02">
+    <RequiredPlugin name="CGAL plugin" pluginName="CGALPlugin"/>
+    <VisualStyle displayFlags="showVisual showBehaviorModels showForceFields" />
+    <Node name="input">
+        <MeshObjLoader name="surface" filename="LiverModel_Thicker_For_CGAL.obj"/>
+        <MeshGenerationFromPolyhedron name="stuffing"
+                                inputPoints="@surface.position"
+                                inputTriangles="@surface.triangles"
+                                inputQuads="@surface.quads"
+                                facetAngle="30"
+                                facetSize="0.2"
+                                facetApproximation="0.05"
+                                cellRatio="15"
+                                cellSize="8.0"
+                                lloyd="true"
+                                lloyd_max_it="4"
+                                lloyd_convergence="1" />
+
+        <OglModel name="VisualModel" src="@surface" color="0.0 1.0 0.0 0.5"/>
+    </Node>
+    <Node name="output2">
+        <Mesh name="volume" points="@../input/stuffing.outputPoints" tetras="@../input/stuffing.outputTetras"/>
+        <MechanicalObject template="Vec3d" />
+        <TetrahedronFEMForceField name="FEM" youngModulus="3.5e3" poissonRatio="0.45" method="large" />
+        <VTKExporter filename="Liver_Lobe"  XMLformat="1" edges="0" tetras="1"  exportAtEnd="true"/>
+    </Node>
+
+</Node>
+
+<!--  Ctrl+E to write the mesh into a vtk file-->

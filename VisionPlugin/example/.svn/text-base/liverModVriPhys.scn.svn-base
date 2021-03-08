@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<Node name="root" gravity="0 -9.81 0" dt="0.02">
+    <Node name="Test">
+        <MeshObjLoader name="loader" 
+            filename="testTrackedPoints.obj"         
+        />
+        <Mesh src="@loader" />
+        <MechanicalObject 
+            src="@loader" name="movingDOFs" 
+        />
+        <OglModel 
+        	name="Raptorzzzz" 
+        	fileMesh="Liver_Lobe.obj" 
+        />
+        <ProjectivePattern 
+            origin="0.00256452 -0.000706004 0.163876" 
+            quaternion="3.86547e-10 -2.22664e-11 -3.32238e-18 1" 
+            radius="0.05" 
+            samples="256" 
+            useRegularSampling="false" 
+            useProceduralSampling="false"
+            updateEveryTimestep="true"
+            noiseSeed ="256"
+            drawingSize="0.002 0.05 0.002" 
+        />
+    </Node>
+</Node>

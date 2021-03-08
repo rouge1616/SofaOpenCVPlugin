@@ -1,0 +1,21 @@
+#version 120
+
+uniform sampler2D Masking;
+uniform sampler2D Augmented;
+uniform sampler2D RealStuff;
+
+void main (void)
+{
+	vec3 aug = texture2D(Augmented, gl_TexCoord[0].xy).rgb;
+	vec3 realFrag = texture2D(RealStuff, gl_TexCoord[0].xy).rgb;
+	vec3 black = vec3(0.0f);
+	float opacity = texture2D(Masking, gl_TexCoord[0].xy).r;
+	
+	float dist = dot(aug, aug);
+
+	if(dist < 0.01f)
+		opacity = 0.0f; 
+
+	gl_FragColor.rgb = opacity * aug + (1.0f - opacity) * realFrag;
+ 
+}

@@ -1,0 +1,263 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/sofaar/!svn/ver/246/trunk/Programming/Sofa/Plugins/SofaAR/example
+END
+ARliverRegistration.scn.qglviewer.view
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/sofaar/!svn/ver/158/trunk/Programming/Sofa/Plugins/SofaAR/example/ARliverRegistration.scn.qglviewer.view
+END
+Opac.frag
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/sofaar/!svn/ver/154/trunk/Programming/Sofa/Plugins/SofaAR/example/Opac.frag
+END
+Opac.vert
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/sofaar/!svn/ver/154/trunk/Programming/Sofa/Plugins/SofaAR/example/Opac.vert
+END
+refImage.png
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/sofaar/!svn/ver/154/trunk/Programming/Sofa/Plugins/SofaAR/example/refImage.png
+END
+ARliver.scn.qglviewer.view
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/sofaar/!svn/ver/127/trunk/Programming/Sofa/Plugins/SofaAR/example/ARliver.scn.qglviewer.view
+END
+Vasc_Liver.obj
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/sofaar/!svn/ver/153/trunk/Programming/Sofa/Plugins/SofaAR/example/Vasc_Liver.obj
+END
+maskingRender.frag
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/sofaar/!svn/ver/117/trunk/Programming/Sofa/Plugins/SofaAR/example/maskingRender.frag
+END
+MaskingTest.scn
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/sofaar/!svn/ver/122/trunk/Programming/Sofa/Plugins/SofaAR/example/MaskingTest.scn
+END
+MovingMask2.state
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/sofaar/!svn/ver/122/trunk/Programming/Sofa/Plugins/SofaAR/example/MovingMask2.state
+END
+Liver_Lobe_Thick.obj
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/sofaar/!svn/ver/118/trunk/Programming/Sofa/Plugins/SofaAR/example/Liver_Lobe_Thick.obj
+END
+MixedReality.frag
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/sofaar/!svn/ver/155/trunk/Programming/Sofa/Plugins/SofaAR/example/MixedReality.frag
+END
+Liver_Lobe_Step_0.png
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/sofaar/!svn/ver/95/trunk/Programming/Sofa/Plugins/SofaAR/example/Liver_Lobe_Step_0.png
+END
+LiverModel_Thicker_For_CGAL.obj
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/sofaar/!svn/ver/114/trunk/Programming/Sofa/Plugins/SofaAR/example/LiverModel_Thicker_For_CGAL.obj
+END
+Liver_Lobe_Step_1.png
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/sofaar/!svn/ver/95/trunk/Programming/Sofa/Plugins/SofaAR/example/Liver_Lobe_Step_1.png
+END
+ARliverRegistration.scn
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/sofaar/!svn/ver/158/trunk/Programming/Sofa/Plugins/SofaAR/example/ARliverRegistration.scn
+END
+testTrackedPoints.obj
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/sofaar/!svn/ver/168/trunk/Programming/Sofa/Plugins/SofaAR/example/testTrackedPoints.obj
+END
+PPP_HV_Recale.vtu
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/sofaar/!svn/ver/246/trunk/Programming/Sofa/Plugins/SofaAR/example/PPP_HV_Recale.vtu
+END
+liverModVriPhys.scn
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/sofaar/!svn/ver/172/trunk/Programming/Sofa/Plugins/SofaAR/example/liverModVriPhys.scn
+END
+PPP_Liver_Recale.vtu
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/sofaar/!svn/ver/246/trunk/Programming/Sofa/Plugins/SofaAR/example/PPP_Liver_Recale.vtu
+END
+MovingMask.state
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/sofaar/!svn/ver/148/trunk/Programming/Sofa/Plugins/SofaAR/example/MovingMask.state
+END
+testProj.scn
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/sofaar/!svn/ver/180/trunk/Programming/Sofa/Plugins/SofaAR/example/testProj.scn
+END
+PPP_PV_Recale.vtu
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/sofaar/!svn/ver/246/trunk/Programming/Sofa/Plugins/SofaAR/example/PPP_PV_Recale.vtu
+END
+BackDrop.obj
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/sofaar/!svn/ver/154/trunk/Programming/Sofa/Plugins/SofaAR/example/BackDrop.obj
+END
+Liver_Stereo_Left.png
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/sofaar/!svn/ver/161/trunk/Programming/Sofa/Plugins/SofaAR/example/Liver_Stereo_Left.png
+END
+ARliverStereoRegistration.scn
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/sofaar/!svn/ver/161/trunk/Programming/Sofa/Plugins/SofaAR/example/ARliverStereoRegistration.scn
+END
+Mesh_New_Rest_Pos_800x450.obj
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/sofaar/!svn/ver/107/trunk/Programming/Sofa/Plugins/SofaAR/example/Mesh_New_Rest_Pos_800x450.obj
+END
+Liver_Lobe_Centered_Tris.obj
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/sofaar/!svn/ver/104/trunk/Programming/Sofa/Plugins/SofaAR/example/Liver_Lobe_Centered_Tris.obj
+END
+LiverIHU_UV.obj
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/sofaar/!svn/ver/163/trunk/Programming/Sofa/Plugins/SofaAR/example/LiverIHU_UV.obj
+END
+Mesh_New_Rest_Pos_800x450_Triangles.obj
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/sofaar/!svn/ver/108/trunk/Programming/Sofa/Plugins/SofaAR/example/Mesh_New_Rest_Pos_800x450_Triangles.obj
+END
+Liver_Lobe0.vtu
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/sofaar/!svn/ver/131/trunk/Programming/Sofa/Plugins/SofaAR/example/Liver_Lobe0.vtu
+END
+Liver_Lobe1.vtu
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/sofaar/!svn/ver/106/trunk/Programming/Sofa/Plugins/SofaAR/example/Liver_Lobe1.vtu
+END
+anatomicalFeatures.obj
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/sofaar/!svn/ver/158/trunk/Programming/Sofa/Plugins/SofaAR/example/anatomicalFeatures.obj
+END
+BackDrop.mtl
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/sofaar/!svn/ver/154/trunk/Programming/Sofa/Plugins/SofaAR/example/BackDrop.mtl
+END
+LiverLobeMeshing.scn
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/sofaar/!svn/ver/114/trunk/Programming/Sofa/Plugins/SofaAR/example/LiverLobeMeshing.scn
+END
+AR_Rendering.scn
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/sofaar/!svn/ver/156/trunk/Programming/Sofa/Plugins/SofaAR/example/AR_Rendering.scn
+END
+simpleTCPLiver.scn
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/sofaar/!svn/ver/89/trunk/Programming/Sofa/Plugins/SofaAR/example/simpleTCPLiver.scn
+END
+ARliver.scn
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/sofaar/!svn/ver/178/trunk/Programming/Sofa/Plugins/SofaAR/example/ARliver.scn
+END
+matte.frag
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/sofaar/!svn/ver/117/trunk/Programming/Sofa/Plugins/SofaAR/example/matte.frag
+END
+MaskInit.obj
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/sofaar/!svn/ver/148/trunk/Programming/Sofa/Plugins/SofaAR/example/MaskInit.obj
+END
+matte.vert
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/sofaar/!svn/ver/117/trunk/Programming/Sofa/Plugins/SofaAR/example/matte.vert
+END
+AR_Rendering.scn.view
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/sofaar/!svn/ver/154/trunk/Programming/Sofa/Plugins/SofaAR/example/AR_Rendering.scn.view
+END
+Liver_Lobe.obj
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/sofaar/!svn/ver/118/trunk/Programming/Sofa/Plugins/SofaAR/example/Liver_Lobe.obj
+END
+Liver_Lobe_Tris.obj
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/sofaar/!svn/ver/104/trunk/Programming/Sofa/Plugins/SofaAR/example/Liver_Lobe_Tris.obj
+END

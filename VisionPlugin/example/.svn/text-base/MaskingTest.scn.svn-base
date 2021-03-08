@@ -1,0 +1,36 @@
+<Node name="root" gravity="0 -9.81 0" dt="0.05">
+    <RequiredPlugin name="AugmentedReality plugin" pluginName="SofaAR" />
+    <ViewerSetting resolution="1200 675" />
+    <VisualStyle displayFlags="showVisualModels showRendering" />
+    <VisualManagerPass name="Masking" factor="1.0" tags="Masking" renderToScreen="false"/>
+    <VisualManagerPass name="NormalRender" factor="1.0" tags="NormalRender" renderToScreen="false"/>
+    <VisualManagerSecondaryPass name="Final" 
+        factor="1.0" 
+        input_tags="Masking NormalRender" 
+        output_tags="finalImage" 
+        fragFilename="maskingRender.frag" 
+        renderToScreen="true" />
+
+    <CompositingVisualLoop name="compositingloop"/>
+
+    <Node name="Fake_liver">
+        <OglModel name="VisualModel" fileMesh="Liver_Lobe.obj" color="1.0 1.0 1.0 1.0" tags="NormalRender"/>
+    </Node>
+
+    <Node name="Moving_Mask">
+        <MeshObjLoader  name="loader" filename="MaskInit.obj" />
+        <Mesh src="@loader" />
+        <MechanicalObject name="MaskMO" src="@loader" showIndices="true"/>
+        <EulerImplicitSolver name="cg_odesolver" vdamping="1" />
+        <CGLinearSolver name="linear solver" iterations="50" tolerance="1e-09" threshold="1e-09" />
+        <TriangularFEMForceField name="FEM" youngModulus="1e6" poissonRatio="0.4"/>
+        <ReadState filename="MovingMask.state" />
+
+        <Node name="Visu" tags="Visual">
+            <OglModel  name="VisualModel" fileMesh="MaskInit.obj" tags="Masking"/>
+            <OglShader vertFilename="matte.vert" fragFilename="matte.frag" tags="Masking"/>
+            <BarycentricMapping name="visual mapping" input="@../MaskMO" output="@VisualModel" />
+        </Node>
+    </Node>
+
+</Node>

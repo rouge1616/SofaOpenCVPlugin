@@ -1,0 +1,42 @@
+load(sofa/pre)
+defineAsPlugin(SofaAR)
+######  GENERAL PLUGIN CONFIGURATION, you shouldn't have to modify it
+
+TEMPLATE = lib
+
+###### SPECIFIC PLUGIN CONFIGURATION, you should modify it to configure your plugin
+
+TARGET = SofaAR
+DEFINES += SOFA_BUILD_SOFAARPLUGIN
+
+
+SOURCES =  \
+    SofaARCapsule.cpp \
+    initSofaAR.cpp \
+    ProjectivePattern.cpp \
+    VoidMappingHNI.cpp \
+    PointsRegistrationEngine.cpp
+
+ 
+
+HEADERS = \
+    SofaARCapsule.h \
+    initSofaAR.h \
+    ProjectivePattern.h \
+    PointsRegistrationEngine.h \
+    PointsRegistrationEngine.inl \
+    VoidMappingHNI.h \
+    VoidMappingHNI.inl
+ 
+
+INCLUDEPATH += /usr/include/ 
+
+LIBS += -lboost_system$$BOOST_SUFFIX -lboost_thread$$BOOST_SUFFIX -lboost_serialization$$BOOST_SUFFIX 
+
+README_FILE = SofaAR.txt
+
+
+unix : QMAKE_POST_LINK = cp $$SRC_DIR/$$README_FILE $$LIB_DESTDIR 
+win32 : QMAKE_POST_LINK = copy \"$$toWindowsPath($$SRC_DIR/$$README_FILE)\" \"$$LIB_DESTDIR\"
+
+load(sofa/post)

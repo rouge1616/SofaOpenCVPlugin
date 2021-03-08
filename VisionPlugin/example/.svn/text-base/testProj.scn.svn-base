@@ -1,0 +1,35 @@
+<Node name="root" gravity="0 -9.8 0" dt="0.01">
+    <RequiredPlugin name="AugmentedReality plugin" pluginName="SofaAR" />
+    <ViewerSetting resolution="800 450" />
+    <VisualStyle displayFlags="showVisualModels hideBehaviorModels showCollisionModels hideMappings hideForceFields" />
+    <DefaultAnimationLoop />
+    <CollisionPipeline depth="15" verbose="0" draw="0" />
+    <BruteForceDetection name="N2" />
+    <MinProximityIntersection name="Proximity" alarmDistance="0.00001" contactDistance="0.000001" />
+
+	<Node name="Liver">
+	<MeshObjLoader name="loader" filename="M12_RegisteredLiver_v2_mlab.obj"/>
+        <Mesh src="@loader" />
+        <MechanicalObject name="DOFs" src="@loader" />
+    	<Node name="VisualLiverSolid" tags="Visual">
+            <VisualStyle displayFlags="hideWireframe" />
+            <OglModel  name="VisualModel" fileMesh="M12_RegisteredLiver_v2_mlab.obj" color="0.9 0.6 0.6 0.2" tags="NormalRender" />
+	 	    <ProjectivePattern 
+			name="pp"
+			origin="0.00256449 -0.000706513 658.611" 
+			quaternion="3.86547e-10 -2.22664e-11 -3.32238e-18 1" 
+			radius="0.05"
+			projectionShift="0.0 0.0 1.0" 
+			samples="256" 
+			useRegularSampling="false" 
+			useProceduralSampling="false"
+			updateEveryTimestep="true"
+			noiseSeed ="256"
+			drawingSize="0.1 5 0.5" 
+			trackedPoints="@VisualModel.vertices"
+			omVertices="@VisualModel.vertices"
+			omNormals="@VisualModel.normal"
+		    />
+        </Node>
+    </Node>
+</Node>

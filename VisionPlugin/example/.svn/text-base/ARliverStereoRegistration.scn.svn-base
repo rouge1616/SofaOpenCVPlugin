@@ -1,0 +1,68 @@
+<Node name="root" gravity="0 0 0" dt="0.01">
+    <RequiredPlugin name="AugmentedReality plugin" pluginName="SofaAR" />
+    <ViewerSetting resolution="960 540" />
+    <VisualStyle displayFlags="showVisualModels hideBehaviorModels showCollisionModels hideMappings hideForceFields" />
+    <DefaultAnimationLoop />
+   
+    <Node name="Internal">
+        <RegularGrid name="plane" n="50 50 1" min="-240 -135 -1" max="240 135 1" />
+        <EulerImplicit vdamping="5.0" />
+        <CGLinearSolver iterations="80" tolerance="1e-9" threshold="1e-9" />
+	<include href="Objects/QuadSetTopology.xml"/>
+        <MechanicalObject template="Vec3d" name="DOFs" />
+        <UniformMass name="mass" totalMass="1.0" />
+	<Node name="T">
+            <include href="Objects/TriangleSetTopology.xml" src="@" tags=" " />
+            <Quad2TriangleTopologicalMapping object1="../../Container" object2="Container" />
+            <TriangularFEMForceField name="FEM" youngModulus="250" poissonRatio="0.3" method="large" />
+            <TriangularBendingSprings name="FEM-Bend" stiffness="250" damping="1.0" />
+        </Node>
+	<!--
+        <BoxROI name="ROI1" box="-240 -140 -10 240 -130 10" drawBoxes="true"  />
+        <FixedConstraint template="Vec3d" indices="@ROI1.indices" drawSize="0"/>
+	<BoxROI name="ROI2" box="-240 130 -10 240 140 10" drawBoxes="true"  />
+        <FixedConstraint template="Vec3d" indices="@ROI2.indices" drawSize="0"/>
+	<BoxROI name="ROI3" box="-245 -140 -10 -235 140 10" drawBoxes="true"  />
+        <FixedConstraint template="Vec3d" indices="@ROI3.indices" drawSize="0"/>
+	<BoxROI name="ROI4" box="235 -140 -10 245 140 10" drawBoxes="true"  />
+        <FixedConstraint template="Vec3d" indices="@ROI4.indices" drawSize="0"/>-->
+	
+	
+	<Node name="VM" activated="true" tags="backgndPass">
+    	    <OglModel name="surface" filename="square_864_triangles.obj" putOnlyTexCoords="true" computeTangents="true" normals="0" tags="backgndPass"   scale3d="48 27 1" translation="-240 -135 0"/>
+    	    <BarycentricMapping name="vmMapping" input="@../DOFs" output="@surface"/>
+    	    <OglShader vertFilename="shaders/shaderLibrary.glsl" fragFilename="shaders/shaderLibrary.glsl" tags="backgndPass"/>
+	    <OglFloat3Variable name="LightPosition" value="0 0 10000" tags="backgndPass"/>
+            <OglFloat3Variable name="LightDirection" value="0.0 0.0 1" tags="backgndPass"/>
+            <OglFloat3Variable name="LightColor" value="1 1 1" tags="backgndPass"/>
+            <OglFloat3Variable name="AmbientColor" value="0 0 0 " tags="backgndPass"/>
+            <OglFloat3Variable name="DiffuseColor" value="0.6 0.6 0.6" tags="backgndPass"/>
+            <OglFloat3Variable name="SpecularColor" value="1 1 1" tags="backgndPass"/>
+            <OglFloatVariable  name="SpecularRoughness" value="0.5" tags="backgndPass"/>
+            <OglFloatVariable  name="SpecularReflectance" value="0.05" tags="backgndPass"/>
+            <OglShaderDefineMacro id="DiffuseMap_Present" tags="backgndPass"/>
+            <OglTexture name="color" id="DiffuseMap" textureFilename="Liver_Stereo_Left.png" textureUnit="2" repeat="true" srgbColorspace="false" tags="backgndPass" />
+        </Node>
+
+
+	
+        <Node name="TrackedPoints" activated="true">
+            <PointsRegistrationEngine name="engine" template="Vec3d" inputPosition="@../DOFs.position" scale="7 7 7" showImg="false" scaleImg="0.5" host="127.0.0.1" port="8888"/>
+            <MechanicalObject name="trackedDOFs" position="@engine.outputPosition" rest_position="@engine.outputPosition"/>
+            <Sphere template="Vec3d" radius="1.0" color="0.0 1.0 0.0"/>
+        </Node>
+
+        <Node name="MovingPoints" activated="true">
+            <MeshObjLoader name="loader" filename="../../../projects/AugmentedReality/Programming/CV/tracker2d/log.obj" scale3d="7 7 7"/>
+	    <Mesh src="@loader" />
+	    <!--<RegularGrid name="plane" n="50 50 1" min="-240 -135 -1" max="240 135 1" />-->
+            <MechanicalObject src="@loader" name="movingDOFs"/>
+            <BoxROI name="ROI" box="-0.1 -0.1 -0.05 0.1 0.1 0.05" drawBoxes="true" />
+            <BarycentricMapping name="Bmapping" input="@../DOFs" output="@movingDOFs" />
+            <Sphere template="Vec3d" radius="1.5" color="1.0 0.0 0.0"/>
+            <RestShapeSpringsForceField name="RSFF" stiffness="2500" angularStiffness="500" external_rest_shape="../TrackedPoints/trackedDOFs" external_points="@../TrackedPoints/engine.outputIndices" points="@ROI.indices" recompute_indices="true" />
+        </Node>
+
+    </Node>
+
+</Node>

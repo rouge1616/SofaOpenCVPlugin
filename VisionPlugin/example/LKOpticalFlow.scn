@@ -1,0 +1,26 @@
+<Node name="root" gravity="0 0 0" dt="0.2" animate="0">
+    <RequiredPlugin name="OpticalFlow plugin" pluginName="OpticalFlow" />
+    <VisualStyle displayFlags="showVisualModels hideBehaviorModels showCollisionModels hideMappings hideForceFields" />
+    <ViewerSetting resolution="960 540" />
+    <DefaultAnimationLoop />
+    
+    <Node name="Vision">
+	<LKOpticalFlowTracker name="LK" 
+		vidName="test.avi" 
+		maskName="mask.png" 
+		view="1" 
+		scaleImg="1" 
+		detectorThresh="100" 
+		winSize="31" 
+		displayFeatures="1" 
+		scale="1 -1 1" 
+		translation="-480 270 0"
+	/>
+    </Node>
+
+    <Node name="X" activated="1">
+	<MechanicalObject  name="DOFs" position="@../Vision/LK.outputFeatures" />   
+	<Sphere template="Vec3d" radius="4" color="0.0 0.0 1.0 1"/>
+    </Node>
+
+</Node>

@@ -1,0 +1,17 @@
+#version 120
+
+varying vec3 lightVec;
+varying vec3 eyeVec;
+varying float opac;
+
+void main (void)
+{
+	float mask;
+	if(opac < 0.0f)
+		mask = 0.0f;
+	else
+		mask = opac;
+
+	gl_FragColor.rgb = vec3(mask, mask, mask);
+	gl_FragColor.a = 1.0;   
+}

@@ -1,0 +1,16 @@
+#version 120
+
+varying vec3 lightVec; 	//vecteur vertex>light en tangent space
+varying vec3 eyeVec;	//vecteur vertex>cam en tangent space
+varying float opac;
+
+void main(void)
+{
+	gl_Position = ftransform();			//projection des vertex à l'écran
+	gl_TexCoord[0] = gl_MultiTexCoord0;	//transfer des coordonnées UV
+   
+	vec3 n = normalize(gl_NormalMatrix * gl_Normal);	//vecteur normal
+	vec3 u = normalize( vec3(gl_ModelViewMatrix * gl_Vertex) ); //vecteur camera>vertex
+
+	opac = -1.0f - 2.0f * dot(u,n);
+}

@@ -1,0 +1,109 @@
+<Node name="root" gravity="0 -9.8 0" dt="0.01">
+    <RequiredPlugin name="AugmentedReality plugin" pluginName="SofaAR" />
+    <ViewerSetting resolution="800 450" />
+    <VisualStyle displayFlags="showVisualModels hideBehaviorModels showCollisionModels hideMappings hideForceFields" />
+    <DefaultAnimationLoop />
+    <CollisionPipeline depth="15" verbose="0" draw="0" />
+    <BruteForceDetection name="N2" />
+    <MinProximityIntersection name="Proximity" alarmDistance="0.00001" contactDistance="0.000001" />
+    <LightManager />
+    <DirectionalLight name="light1" color="0.7 0.7 0.8" direction="0 -1 -1" />
+    <DirectionalLight name="light2" color="0.7 0.7 0.8" direction="1 1 0" />
+    <VisualManagerPass name="Masking" factor="1.0" tags="Masking" renderToScreen="false"/>
+    <VisualManagerPass name="NormalRender" factor="1.0" tags="NormalRender" renderToScreen="false"/>
+    <VisualManagerSecondaryPass name="Final"
+        factor="1.0"
+        input_tags="Masking NormalRender"
+        output_tags="finalImage"
+        fragFilename="maskingRender.frag"
+        renderToScreen="true" />
+
+     <CompositingVisualLoop name="compositingloop"/>
+
+     <Node name="Moving_Mask" activated="false">
+        <MeshObjLoader  name="loader" filename="MaskInit.obj" />
+        <Mesh src="@loader" />
+        <MechanicalObject name="MaskMO" src="@loader" showIndices="true"/>
+        <EulerImplicitSolver name="cg_odesolver" vdamping="1" />
+        <CGLinearSolver name="linear solver" iterations="50" tolerance="1e-09" threshold="1e-09" />
+        <TriangularFEMForceField name="FEM" youngModulus="1e6" poissonRatio="0.4"/>
+        <ReadState filename="MovingMask.state" />
+
+        <Node name="Visu" tags="Visual" activated="false">
+            <OglModel  name="VisualModel" fileMesh="MaskInit.obj" tags="Masking"/>
+            <OglShader vertFilename="matte.vert" fragFilename="matte.frag" tags="Masking"/>
+            <BarycentricMapping name="visual mapping" input="@../MaskMO" output="@VisualModel" />
+        </Node>
+    </Node>
+
+    <Node name="Liver">
+        <EulerImplicitSolver name="cg_odesolver" vdamping="2"/>
+        <CGLinearSolver name="linear solver" iterations="100" tolerance="1e-09" threshold="1e-09" />
+        <MeshVTKLoader name="meshLoader" filename="Liver_Lobe0.vtu" />
+        <TetrahedronSetTopologyContainer name="topo" src="@meshLoader" />
+        <MechanicalObject name="DOFs" src="@meshLoader" />
+        <TetrahedronSetGeometryAlgorithms template="Vec3d" name="GeomAlgo" />
+        <DiagonalMass name="mass" massDensity="1000" />
+       <TetrahedralCorotationalFEMForceField template="Vec3d" name="FEM" method="svd" poissonRatio="0.35" youngModulus="5000" computeGlobalMatrix="0" tags="Visual NormalRender"/>
+        <BoxROI name="ROI1" box="-0.11 -0.075 -0.03 0.11 -0.05 0.01" drawBoxes="true" />
+        <RestShapeSpringsForceField name="BoxConstraints" points="@ROI1.indices" stiffness="50" angularStiffness="50000" drawSpring="1" springColor="1 1 0 1"/>
+
+        <Node name="VisualLiverWire" tags="Visual">
+            <VisualStyle displayFlags="showWireframe" />
+            <OglModel  name="VisualModel" fileMesh="Liver_Lobe.obj" color="0.1 0.1 0.1 0.1" tags="NormalRender" />
+            <BarycentricMapping name="visual mapping" input="@../DOFs" output="@VisualModel" />
+        </Node>
+
+        <Node name="VisualVasculature" tags="Visual">
+            <VisualStyle displayFlags="hideWireframe" />
+            <OglModel  name="VisualModel" fileMesh="Vasc_Liver.obj" color="0.1 0.1 0.6 0.3" tags="NormalRender" />
+            <BarycentricMapping name="visual mapping" input="@../DOFs" output="@VisualModel" />
+        </Node>
+
+        <Node name="TrackedPoints">
+            <PointsRegistrationEngine name="engine" template="Vec3d" inputPosition="@../DOFs.position" scalePt="0.03 0.03 0.03" scaleImg="0.000333" host="127.0.0.1" port="8888" cameraMatrix="k.txt"/>
+            <MechanicalObject name="trackedDOFs" position="@engine.outputPosition" rest_position="@engine.outputPosition"/>
+            <Sphere template="Vec3d" radius="0.001" color="1.0 0.5 0.1" tags="NormalRender"/>
+            <Node name="VisualLiverSolid" tags="Visual">
+		    <VisualStyle displayFlags="hideWireframe" />
+		    <OglModel name="VisualModel" fileMesh="Liver_Lobe.obj" color="0.9 0.6 0.6 0.3" tags="NormalRender" />
+		    <BarycentricMapping name="VisualMapping" input="@../../DOFs" output="@VisualModel" />
+	 	    <ProjectivePattern 
+			name="pp"
+			origin="0.00256452 -0.000706004 0.163876" 
+			quaternion="3.86547e-10 -2.22664e-11 -3.32238e-18 1" 
+			radius="0.05" 
+			samples="256" 
+			useRegularSampling="false" 
+			useProceduralSampling="false"
+			updateEveryTimestep="true"
+			noiseSeed ="256"
+			drawingSize="0.002 0.05 0.0005" 
+			trackedPoints="@../engine.outputPosition"
+			omPositions="@VisualModel.vertices"
+			omNormals="@VisualModel.normal"
+		    />
+	      </Node>
+        </Node>
+
+        <Node name="Markers">
+	    <MechanicalObject  name="movingDOFs" position="@../TrackedPoints/engine.cpPosition"/>
+            <BoxROI name="ROI" box="-0.1 -0.1 -0.05 0.1 0.1 0.05" drawBoxes="true" />
+            <BarycentricMapping name="Bmapping" input="@../DOFs" output="@movingDOFs" />
+            <Sphere template="Vec3d" radius="0.001" color="0.5 0.5 1" tags="NormalRender"/>
+            <RestShapeSpringsForceField name="RSFF" stiffness="25000" angularStiffness="500" external_rest_shape="../TrackedPoints/trackedDOFs" external_points="@../TrackedPoints/engine.outputIndices" points="@ROI.indices" recompute_indices="true" />
+        </Node>
+
+
+        <Node name="CM" activated="false">
+            <MeshObjLoader name="loader" filename="Liver_Lobe.obj"/>
+            <Mesh src="@loader" />
+            <MechanicalObject src="@loader" name="CollisionModel"/>
+            <Triangle />
+            <Point />
+            <BarycentricMapping input="@../DOFs" output="@CollisionModel" />
+        </Node>
+
+    </Node>
+
+</Node>

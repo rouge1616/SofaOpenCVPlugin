@@ -1,0 +1,14 @@
+#version 120
+
+uniform sampler2D Masking;
+uniform sampler2D NormalRender;
+
+void main() 
+{
+	vec3 col = texture2D(NormalRender, gl_TexCoord[0].xy).rgb;
+	float opacityMask = texture2D(Masking, gl_TexCoord[0].xy).r;
+	
+	if(opacityMask < 1.0)
+		gl_FragColor.rgb = col;
+
+}
