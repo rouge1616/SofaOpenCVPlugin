@@ -1,5 +1,0 @@
-includeOnce($$_FILE_) {
-	declare(SofaAR, applications-dev/plugins/SofaAR, sofaguiqt)
-	
-	enable(SofaAR)
-}
